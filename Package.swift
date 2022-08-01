@@ -15,12 +15,12 @@ let package = Package(
     ],
     targets: [
         .target(name: "Fluent", dependencies: [
-            .product(name: "FluentKit", package: "fluent-kit"),
+            .product(name: "FluentKit", package: "prism-fluent-kit"),
             .product(name: "Vapor", package: "vapor"),
         ]),
         .testTarget(name: "FluentTests", dependencies: [
             .target(name: "Fluent"),
-            .product(name: "XCTFluent", package: "fluent-kit"),
+            .product(name: "XCTFluent", package: "prism-fluent-kit"),
             .product(name: "XCTVapor", package: "vapor"),
         ]),
     ]
