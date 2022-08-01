@@ -10,7 +10,7 @@ let package = Package(
         .library(name: "Fluent", targets: ["Fluent"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/prism-ipx/fluent-kit.git", from: "1.16.0"),
+        .package(url: "https://github.com/prism-ipx/prism-fluent-kit.git", from: "1.16.0"),
         .package(url: "https://github.com/vapor/vapor.git", from: "4.50.0"),
     ],
     targets: [
