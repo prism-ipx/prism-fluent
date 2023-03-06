@@ -1,5 +1,6 @@
 import Vapor
 import FluentPostgresDriver
+import FluentKit
 
 extension Application.Fluent {
     public var sessions: Sessions {

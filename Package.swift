@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.5
 import PackageDescription
 
 let package = Package(
@@ -10,7 +10,8 @@ let package = Package(
         .library(name: "Fluent", targets: ["Fluent"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/prism-ipx/prism-fluent-kit.git", from: "1.16.0"),
+        .package(url: "https://github.com/prism-ipx/prism-fluent-kit.git", from: "1.38.0"),
+//        .package(url: "https://github.com/vapor/fluent-kit.git", from: "1.38.0"),
         .package(url: "https://github.com/vapor/vapor.git", from: "4.50.0"),
     ],
     targets: [
