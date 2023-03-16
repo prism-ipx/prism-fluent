@@ -108,7 +108,7 @@ where User: SessionAuthenticatable, User: Model, User.SessionID == User.IDValue 
     }
   }
 }
-struct WebSessionMigrate: Migration {
+public struct WebSessionMigrate: Migration {
   public init() {}
 
   public init(schema: String) {
