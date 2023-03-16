@@ -115,7 +115,7 @@ public struct WebSessionMigrate: Migration {
     SessionRecord.schema = schema
   }
 
-  func prepare(on database: Database) -> EventLoopFuture<Void> {
+  public func prepare(on database: Database) -> EventLoopFuture<Void> {
     return
       database.schema(SessionRecord.schema)
       .id()
@@ -178,11 +178,12 @@ public struct WebSessionMigrate: Migration {
   }
 
   // Undo the change made in `prepare`, if possible.
-  func revert(on database: Database) -> EventLoopFuture<Void> {
+  public func revert(on database: Database) -> EventLoopFuture<Void> {
     return
       database.schema(SessionRecord.schema).delete()
   }
 }
+
 public final class SessionRecord: Model {
   public static var schema = "_fluent_sessions"
 
