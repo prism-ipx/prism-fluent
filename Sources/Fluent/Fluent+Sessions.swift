@@ -130,50 +130,36 @@ public struct WebSessionMigrate: Migration {
         // Create the modified update function
         _ = sql.raw(
           SQLQueryString(
-            "CREATE OR REPLACE FUNCTION update_modified_column() " + "RETURNS TRIGGER AS $$ "
-              + "BEGIN " + "   IF row(NEW.*) IS DISTINCT FROM row(OLD.*) THEN "
-              + "      NEW.modified = now(); " + "      RETURN NEW; " + "   ELSE "
-              + "      RETURN OLD; " + "   END IF; " + "END; " + "$$ language 'plpgsql';")
+            "CREATE OR REPLACE FUNCTION update_modified_column() RETURNS TRIGGER AS $$ "
+              + "BEGIN IF row(NEW.*) IS DISTINCT FROM row(OLD.*) THEN "
+              + "      NEW.modified = now(); RETURN NEW; ELSE "
+              + "      RETURN OLD; END IF; END; $$ language 'plpgsql';")
         ).run()
 
         // Create the modified update trigger
-        _ = sql.raw(
-          SQLQueryString(
-            "CREATE TRIGGER session_modified_timestamp_update " + "BEFORE UPDATE "
-              + "ON websession " + "FOR EACH ROW " + "EXECUTE PROCEDURE update_modified_column();"
-          )
-        ).run()
+        var sqlStatement = "CREATE TRIGGER session_modified_timestamp_update " + "BEFORE UPDATE ON \(SessionRecord.schema) " + "FOR EACH ROW " + "EXECUTE PROCEDURE update_modified_column();"
+        _ = sql.raw(SQLQueryString(sqlStatement)).run()
 
-        _ = sql.raw(
-          SQLQueryString("COMMENT ON TABLE public.\"websession\" IS 'Active Web Session'.;")
-        ).run()
-        _ = sql.raw(
-          SQLQueryString(
-            "COMMENT ON COLUMN public.\"websession\".id IS 'Unique key for the record.';")
-        ).run()
-        _ = sql.raw(
-          SQLQueryString(
-            "COMMENT ON COLUMN public.\"websession\".key IS 'Unique identifier to the users session.';"
-          )
-        ).run()
-        _ = sql.raw(
-          SQLQueryString(
-            "COMMENT ON COLUMN public.\"websession\".data IS 'Session specific data';")
-        ).run()
-        _ = sql.raw(
-          SQLQueryString(
-            "COMMENT ON COLUMN public.\"websession\".clientip IS 'Client''s IP address';")
-        ).run()
-        _ = sql.raw(
-          SQLQueryString(
-            "COMMENT ON COLUMN public.\"websession\".created IS 'When the session row was created';"
-          )
-        ).run()
-        return sql.raw(
-          SQLQueryString(
-            "COMMENT ON COLUMN public.\"websession\".modified IS 'The last time the session row was updated';"
-          )
-        ).run()
+        sqlStatement = "COMMENT ON TABLE public.\"\(SessionRecord.schema)\" IS 'Active Web Session';"
+        _ = sql.raw(SQLQueryString(sqlStatement)).run()
+
+        sqlStatement = "COMMENT ON COLUMN public.\"\(SessionRecord.schema)\".id IS 'Unique key for the record';"
+        _ = sql.raw(SQLQueryString(sqlStatement)).run()
+
+        sqlStatement = "COMMENT ON COLUMN public.\"\(SessionRecord.schema)\".key IS 'Unique identifier to the users session';"
+        _ = sql.raw(SQLQueryString(sqlStatement)).run()
+
+        sqlStatement = "COMMENT ON COLUMN public.\"\(SessionRecord.schema)\".data IS 'Session specific data';"
+        _ = sql.raw(SQLQueryString(sqlStatement)).run()
+
+        sqlStatement = "COMMENT ON COLUMN public.\"\(SessionRecord.schema)\".clientip IS 'Client''s IP address';"
+        _ = sql.raw(SQLQueryString(sqlStatement)).run()
+
+        sqlStatement = "COMMENT ON COLUMN public.\"\(SessionRecord.schema)\".created IS 'When the session row was created';"
+        _ = sql.raw(SQLQueryString(sqlStatement)).run()
+
+        sqlStatement = "COMMENT ON COLUMN public.\"\(SessionRecord.schema)\".modified IS 'The last time the session row was updated';"
+        return sql.raw(SQLQueryString(sqlStatement)).run()
       }
   }
 
